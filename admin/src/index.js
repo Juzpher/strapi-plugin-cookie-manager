@@ -1,41 +1,24 @@
-
-// Strapi
-import { prefixPluginTranslations } from "@strapi/helper-plugin"
-
-// Components
-import { PluginIcon, Initializer } from "./components"
-
-// Utils
-import { pluginId, pluginName } from "./utils"
-import { getTrad } from "./utils"
+import { prefixPluginTranslations } from "@strapi/helper-plugin";
+import { PluginIcon, Initializer } from "./components";
+import { pluginId, pluginName } from "./utils";
+import { getTrad } from "./utils";
 
 export default {
   register(app) {
-    app.createSettingSection(
-      {
-        id: pluginId,
-        intlLabel: { id: getTrad("plugin.name"), defaultMessage: `${pluginName} Plugin` },
+    // Register the plugin in the settings section
+    app.settings.addSettingsLink({
+      id: pluginId,
+      to: `/settings/${pluginId}`,
+      intlLabel: { id: getTrad("plugin.name"), defaultMessage: `${pluginName} Plugin` },
+      Component: async () => {
+        const component = await import(/* webpackChunkName: "cookie-manager-settings" */ "./pages/SettingsPage");
+        return component;
       },
-      [
-        {
-          intlLabel: {
-            id: getTrad("settings.tab.name"),
-            defaultMessage: "Configuration",
-          },
-          id: getTrad("plugin.name"),
-          to: `/settings/${pluginId}`,
-          Component: async () => {
-            const component = await import(
-							/* webpackChunkName: "cookie-manager-settings" */ "./pages/SettingsPage"
-            );
+      permissions: [],
+    });
 
-            return component;
-          },
-          permissions: []
-        }
-      ]
-    )
-    app.addMenuLink({
+    // Register the plugin in the main menu
+    app.menu.addMenuItem({
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
       intlLabel: {
@@ -43,46 +26,38 @@ export default {
         defaultMessage: pluginName,
       },
       Component: async () => {
-        const component = await import(/* webpackChunkName: "[request]" */ "./pages/App")
-
+        const component = await import(/* webpackChunkName: "[request]" */ "./pages/App");
         return component;
       },
-      permissions: [
-        // Uncomment to set the permissions of the plugin here
-        // {
-        //   action: "", // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
-    })
+      permissions: [],
+    });
+
+    // Register the plugin
     app.registerPlugin({
       id: pluginId,
       name: pluginName,
       initializer: Initializer,
       isReady: false,
-    })
+    });
   },
 
-  bootstrap(app) { },
+  bootstrap() {},
+
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
-      locales.map(locale => {
+      locales.map((locale) => {
         return import(`./translations/${locale}.json`)
-          .then(({ default: data }) => {
-            return {
-              data: prefixPluginTranslations(data, pluginId),
-              locale,
-            }
-          })
-          .catch(() => {
-            return {
-              data: {},
-              locale,
-            }
-          })
+          .then(({ default: data }) => ({
+            data: prefixPluginTranslations(data, pluginId),
+            locale,
+          }))
+          .catch(() => ({
+            data: {},
+            locale,
+          }));
       })
-    )
+    );
 
-    return Promise.resolve(importedTrads)
+    return Promise.resolve(importedTrads);
   },
-}
+};

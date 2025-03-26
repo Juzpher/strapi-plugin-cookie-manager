@@ -1,60 +1,14 @@
 {
   "name": "strapi-plugin-cookie-manager",
-  "version": "1.3.0",
-  "description": "Strapi - Cookie Manager",
-  "strapi": {
-    "displayName": "Cookie Manager",
-    "name": "cookie-manager",
-    "description": "A plugin for Strapi CMS to create and manage your cookies.",
-    "kind": "plugin"
-  },
+  "version": "1.0.0",
+  "description": "Cookie Manager plugin for Strapi v5",
   "dependencies": {
-    "@strapi/design-system": "^1.19.0",
-    "@strapi/helper-plugin": "^4.25.12",
-    "@strapi/icons": "^1.19.0",
-    "immutability-helper": "^3.1.1",
-    "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
-    "react-intl": "^7.0.1",
-    "styled-components": "^6.1.13",
-    "formik": "^2.4.6"
+    "@strapi/design-system": "^1.13.0",
+    "@strapi/helper-plugin": "^4.15.0",
+    "@strapi/icons": "^1.13.0",
+    "react-router-dom": "^6.30.0"
   },
-  "devDependencies": {},
   "peerDependencies": {
-    "@strapi/strapi": "4.x"
-  },
-  "author": {
-    "name": "eigengrau",
-    "url": "https://eigengrau.ch"
-  },
-  "engines": {
-    "node": ">=18.x.x <=20.x.x",
-    "npm": ">=6.0.0"
-  },
-  "bugs": {
-    "url": "https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/issues"
-  },
-  "maintainers": [
-    {
-      "name": "Sascha Kycia",
-      "url": "https://eigengrau.ch"
-    }
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eigengrau-ch/strapi-plugin-cookie-manager.git"
-  },
-  "keywords": [
-    "strapi",
-    "plugin",
-    "cookies",
-    "gdpr",
-    "dsgvo"
-  ],
-  "license": "MIT"
+    "@strapi/strapi": "^5.11.3"
+  }
 }
